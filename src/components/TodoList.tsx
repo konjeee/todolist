@@ -39,7 +39,7 @@ const TodoList: React.FC<TodoListProps> = ({
   const [, drop] = useDrop(
     () => ({
       accept: "TASK_ITEM",
-      drop: (item: Todo,monitor) => {
+      drop: (item: Todo, monitor) => {
         const updatedTodos = [...todosRef.current]; // 使用 todosRef 的最新值
         // console.log("updatedTodos:", updatedTodos);
         const draggedItem = updatedTodos.find((todo) => todo.id === item.id);
