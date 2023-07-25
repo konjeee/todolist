@@ -1,32 +1,33 @@
 import React, { useState } from "react";
-import { useDrag } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
+import { Todo } from "../types/types";
+import { formatDate } from "../types/convertdate";
 
 interface TaskItemProps {
   todo: {
     id: string;
     content: string;
-    time: string;
+    time: Date;
     person: string;
     completed: boolean;
     deleted: boolean;
   };
+  todos: Todo[];
   toggleTodo: (id: string) => void;
   deleteTodo: (id: string) => void;
-  updateTodo: (
-    id: string,
-    content: string,
-    time: string,
-    person: string
-  ) => void;
+  updateTodo: (id: string, content: string, time: Date, person: string) => void;
   restoreTodo: (id: string) => void;
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({
   todo,
+  todos,
   toggleTodo,
   deleteTodo,
   updateTodo,
   restoreTodo,
+  setTodos
 }) => {
   const [editing, setEditing] = useState(false);
   const [updatedContent, setUpdatedContent] = useState(todo.content);
@@ -48,7 +49,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   const handleSave = () => {
     if (
       updatedContent.trim() !== "" &&
-      updatedTime.trim() !== "" &&
+      updatedTime.toString().trim() !== "" &&
       updatedPerson.trim() !== ""
     ) {
       setEditing(false);
@@ -67,6 +68,11 @@ const TaskItem: React.FC<TaskItemProps> = ({
     restoreTodo(todo.id);
   };
 
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = new Date(e.target.value);
+    setUpdatedTime(selectedDate);
+  };
+
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "TASK_ITEM",
     item: todo,
@@ -75,8 +81,35 @@ const TaskItem: React.FC<TaskItemProps> = ({
     }),
   }));
 
+  const [, drop] = useDrop(
+    () => ({
+      accept: "TASK_ITEM",
+      drop: (item: Todo) => {
+        let draggedItem = item;
+        let droppedItem = todo;
+        if (draggedItem !== droppedItem) {
+          let draggedIndex = todos.indexOf(draggedItem);
+          let droppedIndex = todos.indexOf(droppedItem);
+          
+          if(draggedIndex !== -1 && droppedIndex !== -1){
+            let changetodos = todos;
+            let temp = changetodos[draggedIndex];
+            changetodos[draggedIndex] = changetodos[droppedIndex];
+            changetodos[droppedIndex] = temp;
+            setTodos(() => changetodos)
+          }
+        }
+      },
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+        canDrop: monitor.canDrop(),
+      }),
+    }),
+    [todos]
+  );
+
   return (
-    <li ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
+    <li ref={(node) => drag(drop(node))} style={{ opacity: isDragging ? 0.5 : 1 }}>
       <input type="checkbox" checked={todo.completed} onChange={handleToggle} />
       {editing ? (
         <>
@@ -88,8 +121,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
           />
           <input
             type="date"
-            value={updatedTime}
-            onChange={(e) => setUpdatedTime(e.target.value)}
+            value={updatedTime.toISOString().split("T")[0]}
+            onChange={handleTimeChange}
           />
           <input
             type="text"
@@ -106,7 +139,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
               textDecoration: todo.completed ? "line-through" : "none",
             }}
           >
-            {todo.content} - {todo.time} - {todo.person}
+        {todo.content} - {formatDate(new Date(todo.time))} - {todo.person}
           </span>
           {!todo.deleted && (
             <>
