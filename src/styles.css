@@ -1,0 +1,213 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  height: 100vh;
+  margin: 0;
+  background-color: #1D3557;
+}
+
+.container {
+  max-width: 600px;
+  padding: 20px;
+  background-color: #f8f1d4;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(255, 255, 217, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #F1FAEE;
+}
+
+.form-group {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.form-group input[type="text"],
+.form-group.editing input[type="text"],
+.form-group.editing input[type="date"],
+.form-group input[type="date"] {
+  flex: 1;
+  margin-right: 10px;
+  padding: 10px;
+  font-size: 16px;
+  color: #F1FAEE;
+  background-color: #457B9D; 
+  border: 1px solid #F1FAEE;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.2s ease-in-out;
+}
+
+::placeholder{
+  color: #F8F7F2;
+  opacity: 0.3;
+}
+
+.form-group input[type="text"]:focus,
+.form-group.editing input[type="text"]:focus,
+.form-group input[type="date"]:focus,
+.form-group.editing input[type="date"]:focus {
+  border: solid;
+  border-color: #F1FAEE; 
+  background-color: #4A708A;
+}
+
+.form-group button[type="submit"] {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #77ABBD; 
+  color: #F1FAEE; 
+  border: solid;
+  border-color: #F1FAEE; 
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.form-group button[type="submit"]:hover {
+  background-color: #4A708A; 
+}
+
+.form-group button[type="submit"]:focus {
+  outline: none;
+}
+
+.search-input {
+  display: block;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+  font-size: 16px;
+  color: #F1FAEE;
+  background-color: #457B9D;
+  border: 1px solid #F1FAEE;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.search-input:focus {
+  border: solid;
+  border-color: #F1FAEE; 
+  background-color: #4A708A;}
+
+ul {
+  list-style: none;
+  padding: 0;
+  background-color: #1D3557;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  background-color: #457B9D;
+  padding: 10px;
+  border: 1px solid #F1FAEE;
+  border-radius: 4px;
+  width: 100%;
+}
+
+li input[type="checkbox"] {
+  position: relative;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #F1FAEE;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+li input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 10px;
+  height: 10px;
+  background-color: #F1FAEE; 
+  border-radius: 50%;
+  transition: transform 0.2s ease-in-out;
+}
+
+li input[type="checkbox"]:checked::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+li span {
+  flex: 1;
+  color: #F1FAEE;
+}
+
+li .editbtn {
+  margin-left: 5px;
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #77ABBD;
+  color: #fff;
+  border: solid;
+  border-color: #F1FAEE;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+li .editbtn:hover {
+  background-color: #31587A;
+}
+
+li .deletebtn {
+  margin-left: 5px;
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #EC9A9A;
+  color: #fff;
+  border: solid;
+  border-color: #F1FAEE;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+li .deletebtn:hover {
+  background-color: #E63946;
+}
+
+.filter-buttons {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.filter-buttons button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #457B9D;
+  color: #F1FAEE;
+  border: 1px solid #F1FAEE;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out;
+}
+
+.filter-buttons button.active {
+  background-color: #F1FAEE;
+  color: #fff;
+  border-color: #F1FAEE;
+}
+
+.filter-buttons button:hover {
+  background-color: #77ABBD;
+  color: #fff;
+  border-color: #77ABBD;
+}
