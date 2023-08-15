@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import DatePicker from "./DatePicker/DatePicker";
 
 interface AddTodoProps {
   addTodo: (content: string, time: Date, person: string) => void;
 }
 
 const AddTodo: React.FC<AddTodoProps> = ({ addTodo }) => {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const [time, setTime] = useState<Date | null>(null);
-  const [person, setPerson] = useState('');
+  const [person, setPerson] = useState("");
 
   const handleContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   };
 
-  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedDate = new Date(e.target.value);
-    setTime(selectedDate);
+  const handleTimeChange = (date: Date) => {
+    setTime(date);
   };
 
   const handlePersonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,19 +24,30 @@ const AddTodo: React.FC<AddTodoProps> = ({ addTodo }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (content.trim() !== '' && time && person.trim() !== '') {
+    if (content.trim() !== "" && time && person.trim() !== "") {
       addTodo(content, time, person);
-      setContent('');
+      setContent("");
       setTime(null);
-      setPerson('');
+      setPerson("");
     }
   };
-  
+
   return (
-    <form onSubmit={handleSubmit} className='form-group'>
-      <input type="text" value={content} onChange={handleContentChange} placeholder="內容" autoFocus/>
-      <input type="date" value={time ? time.toISOString().split('T')[0] : ''} onChange={handleTimeChange} placeholder="時間" />
-      <input type="text" value={person} onChange={handlePersonChange} placeholder="人物" />
+    <form onSubmit={handleSubmit} className="form-group">
+      <input
+        type="text"
+        value={content}
+        onChange={handleContentChange}
+        placeholder="內容"
+        autoFocus
+      />
+      <DatePicker selectDate={handleTimeChange} />
+      <input
+        type="text"
+        value={person}
+        onChange={handlePersonChange}
+        placeholder="人物"
+      />
       <button type="submit">新增</button>
     </form>
   );
