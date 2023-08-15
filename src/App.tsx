@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
-import Filter from "./components/Filter";
+import Filter from "./components/Filter/Filter";
 import Search from "./components/Search";
 import Modal from "./components/Modal";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
-import { Todo } from "./types/types";
-import { formatDate } from "./types/convertdate";
+import { Todo } from "./types/todo";
+import { formatDate } from "./utils/time";
 import {
   FilterType,
   FILTER_COMPLETED,
   FILTER_DELETED,
   FILTER_UNCOMPLETED,
-} from "./types/filtertype";
+} from "./components/Filter/filtertype";
 
 const App: React.FC = () => {
-  const initialTodos: Todo[] = JSON.parse(
-    localStorage.getItem("localTodos") || "[]"
-  );
+  const initialTodos: Todo[] = useMemo(() => {
+    return JSON.parse(localStorage.getItem("localTodos") || "[]");
+  }, []);
 
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
   const [filter, setFilter] = useState<FilterType>();
@@ -32,7 +32,7 @@ const App: React.FC = () => {
 
   const addTodo = (content: string, time: Date, person: string) => {
     const newTodo: Todo = {
-      id: uuidv4(), // 使用uuid生成唯一的id
+      id: uuidv4(),
       content,
       time,
       person,
@@ -87,23 +87,28 @@ const App: React.FC = () => {
     setSearchKeyword(keyword);
   };
 
-  const filteredTodos = todos.filter((todo) => {
-    const matchFilter =
-      filter === FILTER_COMPLETED
-        ? todo.completed && !todo.deleted
-        : filter === FILTER_UNCOMPLETED
-        ? !todo.completed && !todo.deleted
-        : filter === FILTER_DELETED
-        ? todo.deleted
-        : !todo.deleted;
+  const filteredTodos = useMemo(() => {
+    return todos.filter((todo) => {
+      let matchFilter = false;
 
-    const matchSearch =
-      todo.content.includes(searchKeyword) ||
-      formatDate(new Date(todo.time)).includes(searchKeyword) ||
-      todo.person.includes(searchKeyword);
+      if (filter === FILTER_COMPLETED) {
+        matchFilter = todo.completed && !todo.deleted;
+      } else if (filter === FILTER_UNCOMPLETED) {
+        matchFilter = !todo.completed && !todo.deleted;
+      } else if (filter === FILTER_DELETED) {
+        matchFilter = todo.deleted;
+      } else {
+        matchFilter = !todo.deleted;
+      }
 
-    return matchFilter && matchSearch;
-  });
+      const matchSearch =
+        todo.content.includes(searchKeyword) ||
+        formatDate(new Date(todo.time)).includes(searchKeyword) ||
+        todo.person.includes(searchKeyword);
+
+      return matchFilter && matchSearch;
+    });
+  }, [todos, filter, searchKeyword]);
 
   const handleEditTodo = (todo: Todo) => {
     setEditingTodo(todo);
