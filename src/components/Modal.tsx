@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
-import { Todo } from "../types/types";
-import { formatDate } from "../types/convertdate";
+import { Todo } from "../types/todo";
 import "./Ｍodal.css";
+import DatePicker from "./DatePicker/DatePicker";
 
 interface ModalProps {
   todo: Todo;
@@ -11,17 +11,13 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ todo, onSaveModal, onCloseModal }) => {
   const [updatedContent, setUpdatedContent] = useState(todo.content);
-  const [updatedTime, setUpdatedTime] = useState(todo.time);
+  const [updatedTime, setUpdatedTime] = useState<Date>(todo.time);
   const [updatedPerson, setUpdatedPerson] = useState(todo.person);
   const overlayRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleSave = () => {
-    if (
-      updatedContent.trim() !== "" &&
-      updatedTime.toString().trim() !== "" &&
-      updatedPerson.trim() !== ""
-    ) {
+    if (updatedContent.trim() !== "" && updatedPerson.trim() !== "") {
       const updatedTodo: Todo = {
         ...todo,
         content: updatedContent,
@@ -40,9 +36,8 @@ const Modal: React.FC<ModalProps> = ({ todo, onSaveModal, onCloseModal }) => {
     e.stopPropagation();
   };
 
-  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedDate = new Date(e.target.value);
-    setUpdatedTime(selectedDate);
+  const handleTimeChange = (date: Date) => {
+    setUpdatedTime(date);
   };
 
   return (
@@ -62,11 +57,7 @@ const Modal: React.FC<ModalProps> = ({ todo, onSaveModal, onCloseModal }) => {
           </div>
           <div className="modal-row">
             <p>日期：</p>
-            <input
-              type="date"
-              value={formatDate(new Date(updatedTime))}
-              onChange={handleTimeChange}
-            />
+            <DatePicker selectDate={handleTimeChange} />
           </div>
           <div className="modal-row">
             <p>人物：</p>
