@@ -3,6 +3,7 @@ import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
 import Filter from "./components/Filter";
 import Search from "./components/Search";
+import Modal from "./components/Modal";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
@@ -19,19 +20,16 @@ const App: React.FC = () => {
   const initialTodos: Todo[] = JSON.parse(
     localStorage.getItem("localTodos") || "[]"
   );
-  // 待辦事項列表的狀態
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
-  // 過濾狀態
-  const [filter, setFilter] = useState<FilterType>();
-  // 搜尋關鍵字的狀態
-  const [searchKeyword, setSearchKeyword] = useState<string>("");
 
-  // 每當 todos 狀態改變時更新 localStorage
+  const [todos, setTodos] = useState<Todo[]>(initialTodos);
+  const [filter, setFilter] = useState<FilterType>();
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
+  const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
+
   useEffect(() => {
     localStorage.setItem("localTodos", JSON.stringify(todos));
   }, [todos]);
 
-  // 新增待辦事項
   const addTodo = (content: string, time: Date, person: string) => {
     const newTodo: Todo = {
       id: uuidv4(), // 使用uuid生成唯一的id
@@ -44,7 +42,6 @@ const App: React.FC = () => {
     setTodos((prevTodos) => [...prevTodos, newTodo]);
   };
 
-  // 切換待辦事項的完成狀態
   const toggleTodo = (id: string) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
@@ -53,7 +50,6 @@ const App: React.FC = () => {
     );
   };
 
-  // 刪除待辦事項
   const deleteTodo = (id: string) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
@@ -62,7 +58,6 @@ const App: React.FC = () => {
     );
   };
 
-  // 復原已刪除的待辦事項
   const restoreTodo = (id: string) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
@@ -71,7 +66,6 @@ const App: React.FC = () => {
     );
   };
 
-  // 更新待辦事項的內容、時間和人物
   const updateTodo = (
     id: string,
     content: string,
@@ -85,17 +79,14 @@ const App: React.FC = () => {
     );
   };
 
-  // 過濾待辦事項
   const filterTodos = (filterType: FilterType) => {
     setFilter(filterType);
   };
 
-  // 搜尋待辦事項
   const searchTodo = (keyword: string) => {
     setSearchKeyword(keyword);
   };
 
-  // 根據過濾條件和搜尋關鍵字篩選待辦事項
   const filteredTodos = todos.filter((todo) => {
     const matchFilter =
       filter === FILTER_COMPLETED
@@ -114,25 +105,49 @@ const App: React.FC = () => {
     return matchFilter && matchSearch;
   });
 
+  const handleEditTodo = (todo: Todo) => {
+    setEditingTodo(todo);
+  };
+
+  const handleCloseModal = () => {
+    setEditingTodo(null);
+  };
+
+  const handleSaveModal = (updatedTodo: Todo) => {
+    if (updatedTodo) {
+      updateTodo(
+        updatedTodo.id,
+        updatedTodo.content,
+        updatedTodo.time,
+        updatedTodo.person
+      );
+      handleCloseModal();
+    }
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div>
         <h1>Todo List</h1>
-        {/* 新增待辦事項的組件 */}
         <AddTodo addTodo={addTodo} />
-        {/* 搜尋待辦事項的組件 */}
         <Search searchTodo={searchTodo} />
-        {/* 過濾待辦事項的組件 */}
         <Filter filterTodos={filterTodos} />
-        {/* 顯示待辦事項的組件 */}
         <TodoList
           todos={filteredTodos}
           toggleTodo={toggleTodo}
           deleteTodo={deleteTodo}
-          updateTodo={updateTodo}
+          onEditTodo={handleEditTodo}
           restoreTodo={restoreTodo}
           setTodos={setTodos}
         />
+
+        {editingTodo && (
+          <Modal
+            todo={editingTodo}
+            onSaveModal={handleSaveModal}
+            onCloseModal={handleCloseModal}
+          />
+        )}
       </div>
     </DndProvider>
   );

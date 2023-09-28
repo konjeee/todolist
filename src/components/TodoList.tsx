@@ -6,7 +6,7 @@ interface TodoListProps {
   todos: Todo[];
   toggleTodo: (id: string) => void;
   deleteTodo: (id: string) => void;
-  updateTodo: (id: string, content: string, time: Date, person: string) => void;
+  onEditTodo: (todo: Todo) => void;
   restoreTodo: (id: string) => void;
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
@@ -15,7 +15,7 @@ const TodoList: React.FC<TodoListProps> = ({
   todos,
   toggleTodo,
   deleteTodo,
-  updateTodo,
+  onEditTodo,
   restoreTodo,
   setTodos
 }) => {
@@ -28,7 +28,7 @@ const TodoList: React.FC<TodoListProps> = ({
           todos={todos}
           toggleTodo={toggleTodo}
           deleteTodo={deleteTodo}
-          updateTodo={updateTodo}
+          onEditTodo={onEditTodo}
           restoreTodo={restoreTodo}
           setTodos={setTodos}
         />

@@ -17,7 +17,7 @@ const Filter: React.FC<FilterProps> = ({ filterTodos }) => {
   };
 
   return (
-    <div>
+    <div className="filter-buttons">
       <button onClick={() => handleFilterClick(FILTER_ALL)}>全部</button>
       <button onClick={() => handleFilterClick(FILTER_COMPLETED)}>
         已完成

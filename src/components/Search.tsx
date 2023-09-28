@@ -23,6 +23,7 @@ const Search: React.FC<SearchProps> = ({ searchTodo }) => {
     <div>
       <input
         type="text"
+        className="search-input"
         onChange={handleInputChange}
         onKeyDown={handleKeyPress}
         placeholder="請按下Enter搜尋"
