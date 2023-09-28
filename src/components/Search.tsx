@@ -6,26 +6,33 @@ interface SearchProps {
 
 const Search: React.FC<SearchProps> = ({ searchTodo }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    if (value === "") {
-      searchTodo(value);
-    }
+    searchTodo(e.target.value);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" || e.key === "Delete" || e.key === "Backspace") {
-      const { value } = e.currentTarget;
-      searchTodo(value);
-    }
-  };
+  const handleDebounce = debounce(handleInputChange, 500);
+
+  function debounce(
+    func: { apply: (arg0: any, arg1: any[]) => void },
+    delay = 500
+  ) {
+    let timer: number;
+
+    return function (this: string, ...args: any[]) {
+      let context = this;
+
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(context, args);
+      }, delay);
+    };
+  }
 
   return (
     <div>
       <input
         type="text"
         className="search-input"
-        onChange={handleInputChange}
-        onKeyDown={handleKeyPress}
+        onChange={handleDebounce}
         placeholder="請按下Enter搜尋"
         autoComplete="off"
       />

@@ -33,7 +33,7 @@ h1 {
 .form-group input[type="date"] {
   flex: 1;
   margin-right: 10px;
-  padding: 10px;
+  padding: 15px;
   font-size: 16px;
   color: #F1FAEE;
   background-color: #457B9D; 
@@ -178,6 +178,23 @@ li .deletebtn {
 
 li .deletebtn:hover {
   background-color: #E63946;
+}
+
+li .restorebtn {
+  margin-left: 5px;
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #9aec9d;
+  color: #fff;
+  border: solid;
+  border-color: #F1FAEE;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+li .restorebtn:hover {
+  background-color: #39e63c;
 }
 
 .filter-buttons {

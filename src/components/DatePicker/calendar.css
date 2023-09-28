@@ -1,0 +1,150 @@
+/* calendar.css */
+
+.calandar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  max-width: 300px;
+}
+
+.header {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.backfoward {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  cursor: pointer;
+  color: #000000;
+}
+
+.backfoward:hover {
+  --transform-scale-x: 1.05;
+  --transform-scale-y: 1.05;
+}
+
+.head {
+  color: #000000;
+}
+
+.weeks {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.week {
+  display: grid;
+  place-content: center;
+  width: 2.7rem;
+  font-size: 0.875rem;
+  line-height: 0rem;
+  text-align: center;
+  color: #000000;
+  user-select: none;
+}
+
+.datetable {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.monthtable {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.yeartable {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.date {
+  display: grid;
+  padding: 0.5rem;
+  place-content: center;
+  height: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-align: center;
+  color: #000000;
+}
+
+.month {
+  display: grid;
+  padding: 0.5rem;
+  place-content: center;
+  height: 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-align: center;
+  color: #000000;
+}
+
+.year {
+  display: grid;
+  padding: 0.5rem;
+  place-content: center;
+  height: 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-align: center;
+  color: #000000;
+}
+
+.falseCurrentMonth {
+  color: #9ca3af;
+}
+
+.trueToday {
+  color: #dc2626;
+}
+
+.trueSelectDate {
+  color: #ffffff;
+  background-color: #dc2626;
+}
+
+.dateselected {
+    display: grid;
+    place-content: center;
+    border-radius: 50%;
+    width: 1.8rem;
+    height: 1.8rem;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 400ms;
+    cursor: pointer;
+    user-select: none;
+  }
+
+.selected {
+  display: grid;
+  place-content: center;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 400ms;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dateselected:hover {
+    color: #ffffff;
+    background-color: #000000;
+    opacity: 0.7;
+  }
+
+.selected:hover {
+  color: #ffffff;
+  background-color: #000000;
+  opacity: 0.7;
+}

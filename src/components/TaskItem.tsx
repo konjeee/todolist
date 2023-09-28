@@ -1,7 +1,7 @@
 import React from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { Todo } from "../types/types";
-import { formatDate } from "../types/convertdate";
+import { Todo } from "../types/todo";
+import { formatDate } from "../utils/time";
 
 interface TaskItemProps {
   todo: Todo;
@@ -96,7 +96,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
         )}
       </>
 
-      {todo.deleted && <button onClick={handleRestore}>復原</button>}
+      {todo.deleted && <button onClick={handleRestore} className="restorebtn">復原</button>}
     </li>
   );
 };

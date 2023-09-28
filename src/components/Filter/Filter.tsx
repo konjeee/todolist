@@ -5,7 +5,7 @@ import {
   FILTER_COMPLETED,
   FILTER_DELETED,
   FILTER_UNCOMPLETED,
-} from "../types/filtertype";
+} from "./filtertype";
 
 interface FilterProps {
   filterTodos: (filterType: FilterType) => void;
