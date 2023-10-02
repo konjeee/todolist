@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DatePicker from "./DatePicker/DatePicker";
+import dayjs from "dayjs";
 
 interface AddTodoProps {
   addTodo: (content: string, time: Date, person: string) => void;
@@ -7,7 +8,7 @@ interface AddTodoProps {
 
 const AddTodo: React.FC<AddTodoProps> = ({ addTodo }) => {
   const [content, setContent] = useState("");
-  const [time, setTime] = useState<Date | null>(null);
+  const [time, setTime] = useState(dayjs().toDate());
   const [person, setPerson] = useState("");
 
   const handleContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +28,6 @@ const AddTodo: React.FC<AddTodoProps> = ({ addTodo }) => {
     if (content.trim() !== "" && time && person.trim() !== "") {
       addTodo(content, time, person);
       setContent("");
-      setTime(null);
       setPerson("");
     }
   };
@@ -35,20 +35,26 @@ const AddTodo: React.FC<AddTodoProps> = ({ addTodo }) => {
   return (
     <form onSubmit={handleSubmit} className="form-group">
       <input
+        className="addcontent"
         type="text"
         value={content}
         onChange={handleContentChange}
         placeholder="內容"
         autoFocus
       />
-      <DatePicker selectDate={handleTimeChange} />
+      <div className="addtime">
+        <DatePicker selectDate={handleTimeChange} />
+      </div>
       <input
+        className="addpeople"
         type="text"
         value={person}
         onChange={handlePersonChange}
         placeholder="人物"
       />
-      <button type="submit">新增</button>
+      <button className="addbtn" type="submit">
+        新增
+      </button>
     </form>
   );
 };

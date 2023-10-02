@@ -9,7 +9,7 @@ interface DatePickerProps {
 
 const DatePicker: React.FC<DatePickerProps> = ({ selectDate }) => {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(dayjs().toDate());
 
   const toggleCalendar = () => {
     setShowCalendar(!showCalendar);

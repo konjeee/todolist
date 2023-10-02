@@ -33,7 +33,7 @@ const Search: React.FC<SearchProps> = ({ searchTodo }) => {
         type="text"
         className="search-input"
         onChange={handleDebounce}
-        placeholder="請按下Enter搜尋"
+        placeholder="搜尋"
         autoComplete="off"
       />
     </div>
