@@ -57,11 +57,9 @@ const TaskItem: React.FC<TaskItemProps> = ({
           let droppedIndex = todos.indexOf(droppedItem);
 
           if (draggedIndex !== -1 && droppedIndex !== -1) {
-            let changetodos = todos;
-            let temp = changetodos[draggedIndex];
-            changetodos[draggedIndex] = changetodos[droppedIndex];
-            changetodos[droppedIndex] = temp;
-            setTodos(() => changetodos);
+            todos.splice(draggedIndex, 1);
+            todos.splice(droppedIndex, 0, draggedItem);
+            setTodos(() => todos);
           }
         }
       },
@@ -80,23 +78,42 @@ const TaskItem: React.FC<TaskItemProps> = ({
     >
       <input type="checkbox" checked={todo.completed} onChange={handleToggle} />
 
-      <>
-        <span
-          style={{
-            textDecoration: todo.completed ? "line-through" : "none",
-          }}
-        >
-          {todo.content} - {formatDate(new Date(todo.time))} - {todo.person}
-        </span>
+      <span
+        className="todo-content"
+        style={{
+          textDecoration: todo.completed ? "line-through" : "none",
+        }}
+      >
+        {todo.content}
+      </span>
+      <span
+        className="todo-info"
+        style={{
+          textDecoration: todo.completed ? "line-through" : "none",
+        }}
+      >
+        {todo.person}
+        <br />
+        Created {formatDate(new Date(todo.time))}
+      </span>
+      <div className="edit">
         {!todo.deleted && (
           <>
-            <button onClick={handleEdit} className="editbtn">編輯</button>
-            <button onClick={handleDelete} className="deletebtn">刪除</button>
+            <button onClick={handleEdit} className="editbtn">
+              編輯
+            </button>
+            <button onClick={handleDelete} className="deletebtn">
+              刪除
+            </button>
           </>
         )}
-      </>
 
-      {todo.deleted && <button onClick={handleRestore} className="restorebtn">復原</button>}
+        {todo.deleted && (
+          <button onClick={handleRestore} className="restorebtn">
+            復原
+          </button>
+        )}
+      </div>
     </li>
   );
 };
