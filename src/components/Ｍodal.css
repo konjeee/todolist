@@ -1,4 +1,12 @@
 /* Modal.css */
+body {
+  --main-color: #eff1f3;
+  --border-color: #3c6e71;
+  --text-color: #353535;
+  --hover-color: #d9d9d9;
+  --border-line: 2px;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -12,13 +20,12 @@
 }
 
 .modal {
-  border: solid;
-  border-color: #f1faee;
-  background-color: #4a708a;
+  border: 4px solid var(--border-color);
+  background-color: var(--main-color);
   padding: 30px;
   border-radius: 4px;
   width: 400px;
-  color: #f1faee;
+  color: var(--text-color);
 }
 
 .modal-header {
@@ -46,9 +53,9 @@
   flex: 1;
   padding: 5px;
   font-size: 16px;
-  color: #f1faee;
-  background-color: #457b9d;
-  border: 1px solid #f1faee;
+  color: var(--text-color);
+  background-color: var(--hover-color);
+  border: var(--border-line) solid var(--border-color);
   border-radius: 4px;
   outline: none;
 }
@@ -61,8 +68,8 @@
 .modal-footer .modal-save {
   padding: 10px;
   font-size: 16px;
-  color: #f1faee;
-  background-color: #3182ce;
+  color: var(--text-color);
+  background-color: #77abbd;
   border: solid;
   border-radius: 10px;
   margin-right: 10px;
@@ -71,7 +78,7 @@
 .modal-footer .modal-close {
   padding: 10px;
   font-size: 16px;
-  color: #f1faee;
+  color: var(--text-color);
   background-color: #a0aec0e0;
   border: solid;
   border-radius: 10px;
