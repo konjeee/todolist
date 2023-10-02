@@ -131,30 +131,36 @@ const App: React.FC = () => {
   };
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div>
-        <h1>Todo List</h1>
-        <AddTodo addTodo={addTodo} />
-        <Search searchTodo={searchTodo} />
-        <Filter filterTodos={filterTodos} />
-        <TodoList
-          todos={filteredTodos}
-          toggleTodo={toggleTodo}
-          deleteTodo={deleteTodo}
-          onEditTodo={handleEditTodo}
-          restoreTodo={restoreTodo}
-          setTodos={setTodos}
-        />
+    <>
+      <DndProvider backend={HTML5Backend}>
+        <h1 className="logo">To-do List</h1>
+        <div className="container">
+          <div className="sidebar">
+            <Filter filterTodos={filterTodos} />
+          </div>
+          <div className="main">
+            <AddTodo addTodo={addTodo} />
+            <Search searchTodo={searchTodo} />
+            <TodoList
+              todos={filteredTodos}
+              toggleTodo={toggleTodo}
+              deleteTodo={deleteTodo}
+              onEditTodo={handleEditTodo}
+              restoreTodo={restoreTodo}
+              setTodos={setTodos}
+            />
 
-        {editingTodo && (
-          <Modal
-            todo={editingTodo}
-            onSaveModal={handleSaveModal}
-            onCloseModal={handleCloseModal}
-          />
-        )}
-      </div>
-    </DndProvider>
+            {editingTodo && (
+              <Modal
+                todo={editingTodo}
+                onSaveModal={handleSaveModal}
+                onCloseModal={handleCloseModal}
+              />
+            )}
+          </div>
+        </div>
+      </DndProvider>
+    </>
   );
 };
 
