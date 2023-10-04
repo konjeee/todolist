@@ -1,49 +1,97 @@
-name: Deploy
+name: App CI
 
 on:
   push:
+    # Run on all branches
     branches:
-      - main
+      - "*"
+    # Run only if files modified are not docs
+    paths-ignore:
+      - "*.md"
+  pull_request:
+    # Run on all branches
+    branches:
+      - "*"
+    # Run only if files modified are not docs
+    paths-ignore:
+      - "*.md"
 
 jobs:
-  build:
-    name: Build
+  buildAndTest:
+    name: Build & Test
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: 🏗 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: 🏗 Setup Node
         uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
 
-      - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+      - name: 🗂️ Install dependencies
+        run: pnpm i
 
-      - name: Build project
-        run: npm run build
+      - name: 🔨 Build
+        run: pnpm build:ci
 
-      - name: Upload production-ready build files
-        uses: actions/upload-artifact@v3
+      - name: 🧪 Test
+        run: pnpm test:ci
+
+      # Upload dist artifacts
+      - uses: actions/upload-artifact@v3
         with:
           name: dist
-          path: ./dist
+          path: dist/
+
+      # Upload coverage artifacts
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage/lcov.info
+
+  coverage:
+    name: Coverage Analysis
+    needs: buildAndTest
+    runs-on: ubuntu-latest
+    steps:
+      # Download coverage artifacts
+      - uses: actions/download-artifact@v3
+        with:
+          name: coverage
+
+      - name: 📈 Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: lcov.info
 
   deploy:
     name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
+    # Deploy only for main branch
     if: github.ref == 'refs/heads/main'
-
+    needs: buildAndTest
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    # Manual deployment
+    environment:
+      name: konjeee.github.io/todolist/
+      url: https://konjeee.github.io/todolist/
     steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v3
+      # Download dist artifacts
+      - uses: actions/download-artifact@v3
         with:
           name: dist
-          path: ./dist
+          path: dist/
 
-      - name: Deploy to GitHub Pages
+      - name: 🚀 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: dist
