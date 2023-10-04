@@ -29,7 +29,6 @@ jobs:
           name: dist
           path: ./dist
 
-  deploy:
     name: Deploy
     # Deploy only for main branch
     if: github.ref == 'refs/heads/main'
