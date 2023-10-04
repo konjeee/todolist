@@ -29,26 +29,21 @@ jobs:
           name: dist
           path: ./dist
 
+  deploy:
     name: Deploy
-    # Deploy only for main branch
-    if: github.ref == 'refs/heads/main'
-    needs: buildAndTest
+    needs: build
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    # Manual deployment
-    environment:
-      name: konjeee.github.io/todolist/
-      url: https://konjeee.github.io/todolist/
+    if: github.ref == 'refs/heads/main'
+
     steps:
-      # Download dist artifacts
-      - uses: actions/download-artifact@v3
+      - name: Download artifact
+        uses: actions/download-artifact@v3
         with:
           name: dist
-          path: dist/
+          path: ./dist
 
-      - name: 🚀 Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist
+          publish_dir: ./dist
