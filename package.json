@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage" : "http://konjeee.github.io/todolist",
+  "homepage": "http://konjeee.github.io/todolist",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -30,6 +30,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.1",
     "typescript": "^5.0.2",
-    "vite": "^4.4.0"
+    "vite": "^4.4.0",
+    "vite-tsconfig-paths": "^4.2.1"
   }
 }
