@@ -15,6 +15,7 @@ import {
   FILTER_DELETED,
   FILTER_UNCOMPLETED,
 } from "./components/Filter/filtertype";
+import Alldone from "./components/Alldone";
 
 const App: React.FC = () => {
   const initialTodos: Todo[] = useMemo(() => {
@@ -149,6 +150,7 @@ const App: React.FC = () => {
               restoreTodo={restoreTodo}
               setTodos={setTodos}
             />
+            <Alldone todos={todos}/>
 
             {editingTodo && (
               <Modal
