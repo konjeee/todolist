@@ -150,7 +150,7 @@ const App: React.FC = () => {
               restoreTodo={restoreTodo}
               setTodos={setTodos}
             />
-            <Alldone todos={todos}/>
+            <Alldone todos={todos} />
 
             {editingTodo && (
               <Modal
