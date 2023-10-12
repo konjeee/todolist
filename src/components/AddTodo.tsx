@@ -41,6 +41,7 @@ const AddTodo: React.FC<AddTodoProps> = ({ addTodo }) => {
         onChange={handleContentChange}
         placeholder="內容"
         autoFocus
+        required
       />
       <div className="addtime">
         <DatePicker selectDate={handleTimeChange} />
@@ -51,6 +52,7 @@ const AddTodo: React.FC<AddTodoProps> = ({ addTodo }) => {
         value={person}
         onChange={handlePersonChange}
         placeholder="人物"
+        required
       />
       <button className="addbtn" type="submit">
         新增

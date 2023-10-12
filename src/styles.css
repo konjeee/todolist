@@ -57,13 +57,13 @@ body {
 }
 
 .filter-buttons button:hover {
-  background-color: var(--hover-color);
+  background-color: #e0e0da;
   color: var(--text-color);
   border-color: var(--border-color);
 }
 
-.filter-buttons button:active {
-  background-color: var(--hover-color);
+.filter-buttons .active {
+  background-color: #e0e0da;
   color: var(--text-color);
   border-color: var(--border-color);
 }
@@ -331,4 +331,9 @@ li .restorebtn {
 
 li .restorebtn:hover {
   background-color: #8ea187;
+}
+
+.alldone{
+  color:var(--text-color);
+  font-size: 20px;
 }
