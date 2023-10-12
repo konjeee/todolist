@@ -7,6 +7,6 @@ export default defineConfig({
   base: '/todolist/',
   plugins: [react(), tsconfigPaths()],
   build: {
-    sourcemap: true,
+    target: 'es2020',
   },
 });
