@@ -332,3 +332,8 @@ li .restorebtn {
 li .restorebtn:hover {
   background-color: #8ea187;
 }
+
+.alldone{
+  color:var(--text-color);
+  font-size: 20px;
+}
