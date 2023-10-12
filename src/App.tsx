@@ -131,6 +131,8 @@ const App: React.FC = () => {
     }
   };
 
+  console.log("abc");
+
   return (
     <>
       <DndProvider backend={HTML5Backend}>
