@@ -8,9 +8,7 @@ interface AlldoneProps {
 const Alldone: React.FC<AlldoneProps> = ({ todos }) => {
   return todos.every((todo) => todo.deleted === true) ? (
     <h3 className="alldone">All Done!</h3>
-  ) : (
-    undefined
-  );
+  ) : undefined;
 };
 
 export default Alldone;
